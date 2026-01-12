@@ -1,0 +1,47 @@
+name: CI - Quality Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          pip install -r requirements.txt
+      - name: Static Analysis (flake8)
+        run: flake8 src tests
+      - name: Security Analysis (bandit)
+        run: bandit -r src -q
+      - name: Secret Demo (masked)
+        env:
+          DEMO_TOKEN: ${{ secrets.DEMO_TOKEN }}
+        shell: bash
+        run: |
+          echo "Demonstrating use of a secret in CI."
+          if [ -z "$DEMO_TOKEN" ]; then
+            echo "Secret DEMO_TOKEN not set; skipping demo."
+          else
+            echo "Secret is available and will be masked in logs."
+            echo "::add-mask::$DEMO_TOKEN"
+            echo "Using secret safely via environment variable."
+            echo "Secret length: ${#DEMO_TOKEN}"
+          fi
+      - name: Unit Tests with Coverage
+        env:
+          PYTHONPATH: src
+        run: pytest -q --cov=src --cov-report=term-missing --cov-fail-under=80
