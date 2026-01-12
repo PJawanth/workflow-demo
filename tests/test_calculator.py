@@ -1,10 +1,6 @@
-import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
-
 import math
 import pytest
-from calculator import Calculator
+from src.calculator import Calculator
 
 
 @pytest.fixture
