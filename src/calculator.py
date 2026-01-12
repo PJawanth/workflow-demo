@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 class Calculator:
     """Basic arithmetic calculator with error handling."""
 
