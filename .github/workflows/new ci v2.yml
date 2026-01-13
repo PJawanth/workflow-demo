@@ -1,4 +1,4 @@
-name: Python CI v3
+name: Python CI v4
 
 on:
   push:
@@ -10,9 +10,9 @@ permissions:
 
 jobs:
   ci:
-    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@v3
+    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@v4
     with:
+      python_versions: "3.10,3.11,3.12"
       run_tests: true
       enable_security: true
       coverage_threshold: 80
-
