@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   ci:
-    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@v2
+    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@94efbec46862be96558c36f7ae864bf7f59e7bec
     with:
       run_tests: true
       enable_security: true
