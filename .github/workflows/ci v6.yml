@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   ci:
-    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@v4
+    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@v7
     with:
       python_versions: "3.10,3.11,3.12"
       run_tests: true
