@@ -8,7 +8,7 @@ permissions:
   security-events: write
 jobs:
   ci:
-    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@main
+    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@v1
     with:
       run_tests: true
       enable_security: true
