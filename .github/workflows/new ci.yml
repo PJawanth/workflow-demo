@@ -1,0 +1,12 @@
+name: Python CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@v1
+    with:
+      run_tests: true
+      enable_security: true
