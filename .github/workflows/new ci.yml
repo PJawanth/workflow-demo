@@ -6,7 +6,7 @@ on:
 
 jobs:
   ci:
-    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@v1
+    uses: PJawanth/.github/.github/workflows/Python_ci_template.yml@main
     with:
       run_tests: true
       enable_security: true
