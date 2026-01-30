@@ -1,0 +1,74 @@
+name: Metrics Automation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"   # daily at 03:00 UTC
+  # OPTIONAL: trigger after a deploy workflow completes
+  # Uncomment and update workflows name to your deployment workflow name
+  # workflow_run:
+  #   workflows: ["Deploy to Production"]
+  #   types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install requests pandas openpyxl; fi
+
+      # OPTIONAL DevSecOps: generate Trivy JSON (only if you want to include security metrics)
+      # Trivy is preinstalled on ubuntu-latest sometimes, but not guaranteed.
+      # This step installs Trivy and produces out/trivy.json.
+      - name: Install Trivy (optional)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Run Trivy scan (optional)
+        run: |
+          mkdir -p out
+          trivy fs --format json -o out/trivy.json .
+
+      - name: Run metrics (metrics.py)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          MAIN_BRANCH: "main"
+          DAYS_LOOKBACK: "30"
+          OUT_DIR: "out"
+        run: |
+          python metrics.py
+
+      - name: Verify outputs exist
+        run: |
+          test -f out/metrics_snapshot.csv
+          test -f out/dora_daily.csv
+          test -f out/flow_pr.csv
+          test -f out/pipeline_health.csv
+          test -f out/dashboard.xlsx
+          echo "✅ All required metric files exist."
+
+      - name: Upload metrics artifacts (out/)
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-automation-out
+          path: out/

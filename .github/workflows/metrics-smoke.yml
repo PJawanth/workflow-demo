@@ -1,0 +1,41 @@
+name: Metrics Smoke Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run metrics
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          MAIN_BRANCH: "main"
+          DAYS_LOOKBACK: "30"
+        run: |
+          python main.py
+
+      - name: Verify outputs
+        run: |
+          python scripts/verify_outputs.py
+
+      - name: Upload out/
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-out
+          path: out/
