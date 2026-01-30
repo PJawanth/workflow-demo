@@ -24,7 +24,8 @@ OUT_DIR = os.getenv("OUT_DIR", "out").strip()
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # Heuristics to identify production deployment workflows/runs
-PROD_NAME_REGEX = re.compile(r"(deploy|prod|production|release)", re.IGNORECASE)
+# Added 'ci' so that CI workflow runs count as "prod" for DORA metrics
+PROD_NAME_REGEX = re.compile(r"(deploy|prod|production|release|ci)", re.IGNORECASE)
 CI_NAME_REGEX = re.compile(r"(ci|build|test|lint|quality|gate)", re.IGNORECASE)
 
 
