@@ -1,0 +1,7 @@
+Metric,Value,Timestamp
+Deployment Frequency (per day),1.5,2026-01-30T06:32:09.447714+00:00
+Lead Time (hours) [proxy],0.02,2026-01-30T06:32:09.447719+00:00
+Change Failure Rate (%),62.5,2026-01-30T06:32:09.447721+00:00
+MTTR (hours),9.47,2026-01-30T06:32:09.447723+00:00
+WIP (Open PRs),0,2026-01-30T06:32:09.447725+00:00
+Note,Lead Time is proxy (pipeline duration). For true lead time: PR merge -> next prod deploy.,2026-01-30T06:32:09.447727+00:00

@@ -1,0 +1,9 @@
+pr_number,title,state,created_at,merged_at,cycle_time_hours
+8,Features pj2,closed,2026-01-30T05:52:49+00:00,2026-01-30T05:53:12+00:00,0.01
+7,update CI workflow to use Python CI template version v2,closed,2026-01-13T11:01:33+00:00,2026-01-13T11:07:49+00:00,0.1
+6,Second version of the python,closed,2026-01-13T10:36:31+00:00,2026-01-13T10:57:26+00:00,0.35
+5,Features pj1,closed,2026-01-13T07:48:23+00:00,2026-01-13T10:27:44+00:00,2.66
+4,add Python CI workflow configuration,closed,2026-01-13T06:43:27+00:00,2026-01-13T06:43:49+00:00,0.01
+3,add new CI workflow configuration,closed,2026-01-13T05:47:09+00:00,2026-01-13T05:47:41+00:00,0.01
+2,Features pj,closed,2026-01-12T05:16:18+00:00,2026-01-12T05:16:43+00:00,0.01
+1,Features pj,closed,2026-01-12T04:26:34+00:00,2026-01-12T05:07:20+00:00,0.68
