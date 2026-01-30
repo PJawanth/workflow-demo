@@ -273,13 +273,16 @@
                     loadCSV('out/flow_pr.csv')
                 ]);
 
-                // Update DORA metrics from snapshot
+                // Update DORA metrics from snapshot (vertical format: Metric, Value, Timestamp)
                 if (snapshot.length > 0) {
-                    const metrics = snapshot[0];
-                    document.getElementById('depFreq').textContent = metrics.deployment_frequency_per_day || '0';
-                    document.getElementById('leadTime').textContent = metrics.lead_time_hours_proxy || '0';
-                    document.getElementById('cfr').textContent = metrics.change_failure_rate_pct || '0';
-                    document.getElementById('mttr').textContent = metrics.mttr_hours || '0';
+                    const metricsMap = {};
+                    snapshot.forEach(row => {
+                        metricsMap[row.Metric] = row.Value;
+                    });
+                    document.getElementById('depFreq').textContent = metricsMap['Deployment Frequency (per day)'] || '0';
+                    document.getElementById('leadTime').textContent = metricsMap['Lead Time (hours) [proxy]'] || '0';
+                    document.getElementById('cfr').textContent = metricsMap['Change Failure Rate (%)'] || '0';
+                    document.getElementById('mttr').textContent = metricsMap['MTTR (hours)'] || '0';
                 }
 
                 // Deployment chart
