@@ -1,5 +1,0 @@
-bucket,conclusion,count
-ci,failure,2
-deploy,failure,3
-deploy,success,3
-infra,startup_failure,2
